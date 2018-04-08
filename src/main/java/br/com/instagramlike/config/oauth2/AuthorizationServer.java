@@ -65,7 +65,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
                 .authorizedGrantTypes("password")
                 .scopes("instagramlike")
                 .autoApprove("instagramlike")
-                .accessTokenValiditySeconds(293);
+                .accessTokenValiditySeconds(3600);
     }
 
 }

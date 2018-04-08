@@ -1,6 +1,7 @@
 package br.com.instagramlike.utils;
 
 
+import br.com.instagramlike.models.domains.Photo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
@@ -8,7 +9,7 @@ import java.util.stream.Stream;
 
 public interface GalleryStore {
 
-    void store(MultipartFile photo);
+    void store(Photo photo);
 
     Stream<Path> loadAll();
 

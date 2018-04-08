@@ -1,5 +1,6 @@
 package br.com.instagramlike.utils;
 
+import br.com.instagramlike.models.domains.Photo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
@@ -8,7 +9,7 @@ import java.util.stream.Stream;
 public class PhotoStore implements GalleryStore {
 
     @Override
-    public void store(MultipartFile photo) {
+    public void store(Photo photo) {
 
     }
 

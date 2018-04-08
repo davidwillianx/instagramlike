@@ -4,7 +4,6 @@ import br.com.instagramlike.models.domains.Photo;
 import br.com.instagramlike.models.repositories.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class GalleryService {
@@ -13,9 +12,12 @@ public class GalleryService {
     private PhotoRepository photoRepository;
 
 
-//    public Photo save(MultipartFile rawPhoto){
-//
-//    }
+    public Photo save(Photo photo){
+        System.out.println(photo.getOwner().getEmail());
+
+        return null;
+
+    }
 
 
 }

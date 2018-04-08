@@ -1,6 +1,7 @@
 package br.com.instagramlike.models.services;
 
 import br.com.instagramlike.models.domains.User;
+import br.com.instagramlike.models.domains.UserAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,7 +26,6 @@ public class UserSecurityService implements UserDetailsService {
 
         User user = userFound.get();
 
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.emptyList());
-
+        return new UserAuth(user, Collections.EMPTY_LIST);
     }
 }
