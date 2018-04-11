@@ -8,9 +8,10 @@ import br.com.instagramlike.utils.UserAuthenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/gallery")
@@ -19,21 +20,19 @@ public class GalleryResource {
     @Autowired
     private GalleryService galleryService;
 
+    @Autowired
+    private AuthenticatedService authenticatedService;
 
 
-    @UserAuthenticated
     @PostMapping(consumes = "multipart/form-data")
-    public ResponseEntity add(@RequestPart("file") MultipartFile file){
+    public ResponseEntity add(@RequestPart("file") MultipartFile file) throws IOException {
 
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        User user = authenticatedService.user();
+        Photo photo = Photo.builder(file, user);
 
-//        User user = authenticatedService.getUser();
-//        Photo photo = Photo.builder(file, user);
-//
-//        galleryService.save(photo);
-//
-//        return new ResponseEntity(photo, HttpStatus.OK);
-        return null;
+        galleryService.save(photo);
+
+        return new ResponseEntity(photo, HttpStatus.OK);
     }
 
 
