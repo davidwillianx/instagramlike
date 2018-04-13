@@ -10,22 +10,24 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Component
 public class PhotoStore implements GalleryStore {
 
-    private static final String PATH_TO_GALLERY = System.getProperty("user.dir")+"/../../Development/java/instagramlike/src/main/webapp/gallery/";
+    private static final String PATH_TO_GALLERY = System.getProperty("user.home") + "/Development/java/instagramlike/src/main/webapp/gallery/";
 
     @Override
     public void store(Photo photo) throws IOException, NoSuchAlgorithmException {
 
-       MessageDigest hashName =  MessageDigest.getInstance("MD5");
-
-       hashName.update(photo.getFile().getOriginalFilename().getBytes());
+      String fileExtension = photo.getFile().getContentType();
 
       FileCopyUtils
-          .copy(photo.getFile().getBytes(), new File(PATH_TO_GALLERY + photo.getFile().getOriginalFilename()));
+          .copy(
+                  photo.getFile().getBytes(),
+                  new File(PATH_TO_GALLERY + UUID.randomUUID().toString() + "."+fileExtension)
+          );
 
     }
 
@@ -43,4 +45,5 @@ public class PhotoStore implements GalleryStore {
     public void delete(String fileName) {
 
     }
+
 }

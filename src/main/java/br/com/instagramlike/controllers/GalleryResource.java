@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 @RestController
 @RequestMapping("/api/gallery")
@@ -25,7 +26,7 @@ public class GalleryResource {
 
 
     @PostMapping(consumes = "multipart/form-data")
-    public ResponseEntity add(@RequestPart("file") MultipartFile file) throws IOException {
+    public ResponseEntity add(@RequestPart("file") MultipartFile file) throws IOException, NoSuchAlgorithmException {
 
         User user = authenticatedService.user();
         Photo photo = Photo.builder(file, user);

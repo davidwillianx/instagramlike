@@ -10,6 +10,7 @@ import org.springframework.util.FileCopyUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 public class GalleryService {
@@ -21,13 +22,11 @@ public class GalleryService {
     private GalleryStore galleryStore;
 
 
-    public Photo save(Photo photo) throws IOException {
+    public Photo save(Photo photo) throws IOException, NoSuchAlgorithmException {
 
         galleryStore.store(photo);
 
-
-        return null;
-
+        return photo;
     }
 
 
