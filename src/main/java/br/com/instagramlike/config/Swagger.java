@@ -21,7 +21,7 @@ import java.util.Collections;
 @EnableSwagger2
 public class Swagger {
 
-    private static final String AUTH_URL = "http://localhost:8080/";
+    private static final String AUTH_URL = "http://localhost:8080/instagramlike";
     private static final String CLIENT_ID  = "instagram-like-app";
     private static final String CLIENT_SECRET = "b2b2d2d23";
 
@@ -54,7 +54,7 @@ public class Swagger {
 
         GrantType grantType;
         SecurityScheme oauth;
-        TokenEndpoint endpoint = new TokenEndpoint(AUTH_URL + "/token", "oauthtoken");
+        TokenEndpoint endpoint = new TokenEndpoint(AUTH_URL + "/oauth/token", "oauthtoken");
         TokenRequestEndpoint requestEndpoint = new TokenRequestEndpoint(AUTH_URL + "/authorize", CLIENT_ID, CLIENT_ID);
 
 
