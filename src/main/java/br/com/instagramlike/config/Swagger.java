@@ -15,6 +15,7 @@ import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableSwagger2
@@ -32,6 +33,7 @@ public class Swagger {
                     .apis(RequestHandlerSelectors.any())
                     .paths(PathSelectors.any())
                     .build()
+                    .apiInfo(apiInfo())
                     .securitySchemes(Arrays.asList(securityScheme()))
                     .securityContexts(Arrays.asList(securityContext()));
     }
@@ -89,6 +91,20 @@ public class Swagger {
         };
 
          return scopes;
+
+    }
+
+    private ApiInfo apiInfo(){
+
+        return new ApiInfo(
+                "Instagram-like",
+                "A great but not so easy to increase dev skills about Spring and its modules. Is it a good api presentation?",
+                "1.0",
+                "Terms",
+                new Contact("David Willian","wwww.github.com/davidwilliax", "davicsbi (at) gm(a)il.com"),
+                "License of API", "Free license", Collections.EMPTY_LIST
+        );
+
     }
 
 }
