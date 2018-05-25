@@ -15,8 +15,13 @@ public class Photo {
     private int id;
 
     private String name;
+    @Transient
     private String path;
-    private int likes;
+    private String description;
+    private String reffName;
+
+    @OneToMany(mappedBy = "photo")
+    private List<Like> likes;
 
     @JsonIgnore
     @Transient
@@ -27,7 +32,6 @@ public class Photo {
 
     @OneToOne
     private User owner;
-
 
     public static Photo builder(MultipartFile file, User owner){
 
@@ -65,12 +69,28 @@ public class Photo {
         this.path = path;
     }
 
-    public int getLikes() {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Like> getLikes() {
         return likes;
     }
 
-    public void setLikes(int likes) {
+    public void setLikes(List<Like> likes) {
         this.likes = likes;
+    }
+
+    public String getReffName() {
+        return reffName;
+    }
+
+    public void setReffName(String reffName) {
+        this.reffName = reffName;
     }
 
     public List<Comment> getComments() {

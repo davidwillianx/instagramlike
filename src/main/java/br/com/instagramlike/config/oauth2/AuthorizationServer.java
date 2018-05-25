@@ -59,13 +59,14 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-        clients.inMemory()
-                .withClient("instagram-like-app")
-                .secret("b2b2d2d23")
-                .authorizedGrantTypes("password")
-                .scopes("instagramlike")
-                .autoApprove("instagramlike")
-                .accessTokenValiditySeconds(3600);
+        clients
+            .inMemory()
+            .withClient("instagram-like-app")
+            .secret("b2b2d2d23")
+            .authorizedGrantTypes("password")
+            .scopes("instagramlike")
+            .autoApprove("instagramlike")
+            .accessTokenValiditySeconds(3600);
     }
 
 }

@@ -1,5 +1,7 @@
 package br.com.instagramlike.models.domains;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,6 +14,8 @@ public class User {
     private int id;
 
     private String email;
+
+    @JsonIgnore
     private  String password;
 
     @OneToMany(mappedBy = "owner")

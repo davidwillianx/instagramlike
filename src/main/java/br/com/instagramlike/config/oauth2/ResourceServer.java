@@ -27,6 +27,16 @@ public class ResourceServer extends ResourceServerConfigurerAdapter {
     @Qualifier("authSecurityService")
     private UserDetailsService userDetailsService;
 
+    private static final String[] WHITE_LIST = {
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**"
+    };
+
 
     public ResourceServer() {
         super();
@@ -59,6 +69,7 @@ public class ResourceServer extends ResourceServerConfigurerAdapter {
 
         http
          .authorizeRequests()
+                .antMatchers(WHITE_LIST).permitAll()
          .anyRequest()
          .authenticated()
          .and()

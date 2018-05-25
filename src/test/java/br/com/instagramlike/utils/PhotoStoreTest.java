@@ -13,7 +13,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.Matchers.contains;
 
 public class PhotoStoreTest {
 
@@ -30,7 +32,7 @@ public class PhotoStoreTest {
         photoStore = new PhotoStore();
 
         photo = new Photo();
-        mockMultipartFile = new MockMultipartFile("mock-img", "mock-img.jpg", "jpg", "nothing".getBytes());
+        mockMultipartFile = new MockMultipartFile("mock-img", "mock-img.jpg", "image/jpeg", "nothing".getBytes());
 
         photo.setFile(mockMultipartFile);
     }
@@ -70,5 +72,13 @@ public class PhotoStoreTest {
 
         Assert.assertThat(savedPhoto.getName(), not(photoOriginalFileName));
     }
+
+    @Test
+    public void testShoulReturnRightPath() throws IOException, NoSuchAlgorithmException {
+      String photoFullPathToResourceSaved =  photoStore.store(photo);
+      Assert.assertTrue(photoFullPathToResourceSaved.contains(PATH_TO_IMG_SAVED));
+
+    }
+
 
 }

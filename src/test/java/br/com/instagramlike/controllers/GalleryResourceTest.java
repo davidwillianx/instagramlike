@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,16 +46,16 @@ public class GalleryResourceTest {
 
     @Before
     public void setUp() throws IOException {
-        System.out.println("Testing");
-        System.out.println(System.getProperty("user.home"));
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(galleryResource).build();
-
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(galleryResource)
+//                .apply(springSecurity())
+                .build();
 
         mockMultipartFile = new MockMultipartFile(
-                "mock-img",
+                "file",
                 "mock-img.jpg",
-                "JPG", "whateverpicture.jpg".getBytes()
+                "image/jpeg", "whateverpicture.jpg".getBytes()
         );
     }
 
@@ -64,14 +65,17 @@ public class GalleryResourceTest {
         photo = new Photo();
         photo.setFile(mockMultipartFile);
 
-        when(galleryService.save(anyObject())).thenReturn(photo);
+        when(galleryService.save(photo))
+             .thenReturn(photo);
 
         mockMvc.perform(
                 fileUpload("/api/gallery")
                 .file(mockMultipartFile)
+                .contentType("multipart/form-data")
         ).andExpect(status().isOk());
 
     }
+
 
 
 

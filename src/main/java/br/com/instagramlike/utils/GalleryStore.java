@@ -11,11 +11,11 @@ import java.util.stream.Stream;
 
 public interface GalleryStore {
 
-    void store(Photo photo) throws IOException, NoSuchAlgorithmException;
+    String store(Photo photo) throws IOException, NoSuchAlgorithmException;
 
     Stream<Path> loadAll();
 
-    Path load(String fileName);
+     byte[] load(String fileName) throws IOException;
 
     void delete(String fileName);
 
