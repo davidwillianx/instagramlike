@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
@@ -31,27 +32,22 @@ public class OAuth2Security extends WebSecurityConfigurerAdapter {
         http.cors();
     }
 
-
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration cors;
         UrlBasedCorsConfigurationSource configurationSource;
 
         cors = new CorsConfiguration();
-        configurationSource = new UrlBasedCorsConfigurationSource();
 
         cors.setAllowedOrigins(Arrays.asList("*"));
         cors.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD"));
         cors.setAllowCredentials(true);
         cors.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
 
-
+        configurationSource = new UrlBasedCorsConfigurationSource();
         configurationSource.registerCorsConfiguration("/**", cors);
-
 
         return configurationSource;
     }
-
 
 }
