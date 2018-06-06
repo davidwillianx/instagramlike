@@ -49,7 +49,6 @@ public class ResourceServer extends ResourceServerConfigurerAdapter {
         final DaoAuthenticationProvider authenticationProvider;
         authenticationProvider = new DaoAuthenticationProvider();
 
-
         authenticationProvider.setUserDetailsService(userDetailsService);
 
         return authenticationProvider;
@@ -68,13 +67,16 @@ public class ResourceServer extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
 
         http
+          .cors().and()
          .authorizeRequests()
-                .antMatchers(WHITE_LIST).permitAll()
+             .antMatchers(WHITE_LIST).permitAll()
          .anyRequest()
          .authenticated()
-         .and()
+           .and()
          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-         .and()
+           .and()
          .csrf().disable();
     }
+
+
 }
