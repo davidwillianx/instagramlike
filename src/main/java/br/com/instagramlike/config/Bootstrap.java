@@ -21,6 +21,16 @@ public class Bootstrap extends WebMvcConfigurerAdapter {
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(getMyCorsInterceptor());
+    }
+
+    @Bean
+    public Cors getMyCorsInterceptor(){
+        return new Cors();
+    }
+
     @Bean
     public StandardServletMultipartResolver multipartResolver(){
 

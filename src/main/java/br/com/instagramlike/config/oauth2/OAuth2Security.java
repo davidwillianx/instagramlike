@@ -33,6 +33,8 @@ public class OAuth2Security extends WebSecurityConfigurerAdapter {
 
 
 
+
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration cors;

@@ -1,38 +1,44 @@
 package br.com.instagramlike.config;
 
 
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+import com.google.common.collect.ImmutableList;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 
-//@Component
-//@Order(Ordered.HIGHEST_PRECEDENCE)
-public class Cors implements Filter {
+public class Cors extends HandlerInterceptorAdapter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        System.out.println("Tracking data flow");
+        System.out.println(request.getHeader("Origin"));
+
+        Set<String> allowedOrigins  = new HashSet<>(ImmutableList.of("http://localhost:8100"));
+        String origin = request.getHeader("Origin");
+
+        if(allowedOrigins.contains(origin)){
+
+            System.out.println("Request Handler allowed you to send message to this server .. lets processs");
+
+            response.addHeader("Access-Control-Allow-Origin", origin);
+
+            if(request.getHeader("Access-Control-Request-Metehod") != null
+                    && "OPTIONS".equalsIgnoreCase(request.getMethod()) ){
+
+                response.addHeader("Access-Control-Request-Method", "GET, POST, PUT, DELETE");
+                response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+                response.addHeader("Access-Control-Max-Age", "1");
+            }
+
+        }
+
+        return super.preHandle(request, response, handler);
 
     }
 
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
-        HttpServletResponse res = (HttpServletResponse) servletResponse;
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-        res.setHeader("Access-Control-Max-Age", "3600");
-        res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept, x-requested-with, Cache-Control");
-        filterChain.doFilter(servletRequest, res);
-
-    }
-
-    @Override
-    public void destroy() {
-
-    }
 }
