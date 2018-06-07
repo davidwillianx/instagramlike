@@ -1,7 +1,12 @@
 package br.com.instagramlike.config;
 
+import br.com.instagramlike.models.domains.Photo;
+import br.com.instagramlike.models.domains.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import springfox.documentation.builders.AuthorizationCodeGrantBuilder;
 import springfox.documentation.builders.OAuthBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -19,6 +24,9 @@ import java.util.Collections;
 
 @Configuration
 @EnableSwagger2
+@Import({
+    springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class
+})
 public class Swagger {
 
     private static final String AUTH_URL = "http://localhost:8080/instagramlike";
@@ -33,6 +41,7 @@ public class Swagger {
                     .apis(RequestHandlerSelectors.any())
                     .paths(PathSelectors.any())
                     .build()
+                    .genericModelSubstitutes(ResponseEntity.class, Page.class)
                     .apiInfo(apiInfo())
                     .securitySchemes(Arrays.asList(securityScheme()))
                     .securityContexts(Arrays.asList(securityContext()));

@@ -9,7 +9,10 @@ import br.com.instagramlike.models.services.GalleryService;
 import br.com.instagramlike.utils.PhotoStore;
 import br.com.instagramlike.utils.UserAuthenticated;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -37,10 +40,13 @@ public class GalleryResource {
 
 
     @ApiOperation("Create a new picture at user gallery")
-    @PostMapping(consumes = "multipart/form-data")
+    @ApiResponse(
+       code = 200, message="OK", response = ResponseEntity.class, responseContainer = "Photo Object"
+    )
+    @PostMapping(consumes = "multipart/form-data", produces = "application/json")
     public ResponseEntity add(
-            @RequestPart("photo") String photoStringParameters,
-            @RequestPart("file") MultipartFile file
+           @ApiParam(value = "Photo object to attach to the multipartfile") @RequestPart("photo") String photoStringParameters,
+           @ApiParam(value = "Multipartfile photo that you want to save", required = true)  @RequestPart("file") MultipartFile file
     ) throws IOException, NoSuchAlgorithmException {
 
         ObjectMapper mapper;
@@ -57,16 +63,25 @@ public class GalleryResource {
         return new ResponseEntity(photo, HttpStatus.OK);
     }
 
-    @GetMapping("/page/{page}/{size}")
-    public Page<Photo>  showMyGallery(@PathVariable int page, @PathVariable int size){
+    @ApiOperation("Get list of photos by")
+    @ApiResponse(
+            code = 200, message = "OK", response = Page.class, responseContainer = "List"
+    )
+    @GetMapping(value = "/page/{page}/{size}", produces = "application/json")
+    public Page<Photo>  showMyGallery(
+            @ApiParam(value = "Number of current page") @PathVariable int page,
+            @ApiParam(value = "List size") @PathVariable int size){
         User userAuth = authenticatedService.user();
         Page<Photo> photoPage = galleryService.searchGallery(page, size, userAuth);
         return photoPage;
     }
 
+    @ApiOperation("Show image by url filter")
     @GetMapping(value = "/img/{image}", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
-    public byte[] showImage(@PathVariable String image ) throws IOException {
+    public byte[] showImage(
+        @ApiParam(value = "The image url to search") @PathVariable String image
+    ) throws IOException {
 
       User  userAuth = authenticatedService.user();
 
