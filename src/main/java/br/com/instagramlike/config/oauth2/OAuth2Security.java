@@ -17,7 +17,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
-@Configuration
 @EnableWebSecurity
 public class OAuth2Security extends WebSecurityConfigurerAdapter {
 
@@ -29,7 +28,10 @@ public class OAuth2Security extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
+        http
+        .csrf().disable()
+        .authorizeRequests()
+        .antMatchers("/oauth/token").permitAll();
     }
 
     @Bean
@@ -40,7 +42,7 @@ public class OAuth2Security extends WebSecurityConfigurerAdapter {
         cors = new CorsConfiguration();
 
         cors.setAllowedOrigins(Arrays.asList("*"));
-        cors.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD"));
+        cors.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
         cors.setAllowCredentials(true);
         cors.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
 

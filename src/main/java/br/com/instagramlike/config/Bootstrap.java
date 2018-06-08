@@ -20,16 +20,6 @@ public class Bootstrap extends WebMvcConfigurerAdapter {
         registry.addMapping("/**");
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(getMyCorsInterceptor());
-    }
-
-    @Bean
-    public Cors getMyCorsInterceptor(){
-        return new Cors();
-    }
-
     @Bean
     public StandardServletMultipartResolver multipartResolver(){
 
